@@ -1,4 +1,4 @@
-# Zwannah API Structure Documentation (Actors-Supporters Arrangement)
+# Zwannah API Structure Specification(Actors-Supporters Arrangement)
 
 ## Introduction
 The **Zwannah API Structure (Actors-Supporters Arrangement)** (ZAS or ASA) specifies how files in an API (that's based on scripting language) should be arranged to enhance security, maintenance, and tools usage. Tools usage means using tools such as file includers and others efficiently. With this structure, it is easy to write and create tools that ensure development meets organizational conventions and standards.
