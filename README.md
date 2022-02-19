@@ -23,7 +23,8 @@ The API directory is the root directory from which the structure begins. If the 
 ### 1.1 setup (process)
 The setup is a process that is responsible to set up dependencies used by the lower processes. For example, in PHP, you want to include the vendor autoload in this process. Other includers such as your own autoloading should be done here. This process could be a single file or multiple files. However, the process will be included in every (process) below it (your own initiative).
 ### 2.0 Actors
-explanation coming soon
+Actors are all processes that can be interacted with. They are the processes that perform the work on the server. All http requests are made to processes in this directory. An HTTP request cannot be made to supporters. This helps security as no additional work is needed to stop requests from being made to the supporters.
+
 ### 2.0.1 authenticator (process)
 The authenticator process checks if the request is authenticated and updates a global state variable accordingly. This state variable could be anything. For example, it could be a `userId` whose default is 0. If a user is logged in, then it is set to the user's ID. This global variable, as the name suggests will be available to every process below it. The authenticator here should not be used to block access to the service, it should only be used to update the state of the request. Let the lower processes handle this state accordingly.
 For example, a login process will check if the userId is not 0 and respond with an "already logged in" message. However, for an update process, this state will lead to the response "not logged in... or blab.. with code 403".  
