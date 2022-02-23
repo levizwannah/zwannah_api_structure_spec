@@ -44,10 +44,17 @@ In an MVC framework setup, Controllers can be placed in this directory. This wil
 ##### 2.0.3 background (directory)
 As the name suggests, this directory holds processes that run in the background. HTTP requests cannot be made to processes(scripts) in the background directory. All the processes in the background didrectory must either be initiated by a script in the foreground directory or the server itself. For example, a background script that verifies payment can be deployed by a foreground script to continuously check if the initiated payment (by the foreground script) completed successfully. Also, scripts that are run by cron jobs are placed in this directory.  
   
-The communication between the foreground and background scripts are made through CLI. This means, every script in the background folder are Command-Line Application. With this in mind, you can have a C++ or Java program in the background directory that can be called from a foreground php file with all the required arguments.
+**The communication between the foreground and background scripts are made through CLI**. This means, every script in the background folder are Command-Line Application. With this in mind, you can have a C++ or Java program in the background directory that can be called from a foreground php file with all the required arguments.
 
 
+###### 2.0.3.1 setup (process)
+The setup process is responsible to set up the necessary dependencies required to run files in the commandline. This is because some files will be unable to use the general setup at the top. For example, a C++ executable won't use a PHP dependency. Here, you can also check if the request is actually from a Command Line.
 
+###### 2.0.3.2 authenticator (process)
+The authentication process is to set up authentication status of the Command-line call. Since arguments are passed as string, this authentication process will update the call state so that the script being called can handle the call authenticated state accordingly. For example, if a script is to be called by a cron job, you want to pass arguments that will render the call authenticated to the script. This helps security because not any command line call from the terminal will be honored.
+
+###### 2.0.3.3 process groups (directories)
+This is the final level where processes are grouped into directories based on whether they perform functions to achieve a common goal. for example, notifications scripts will be placed in the notifications folder. This is open to interpretation and further extension.
 
 
 
