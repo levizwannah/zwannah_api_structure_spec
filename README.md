@@ -1,7 +1,7 @@
 # Zwannah API Structure Specification(Actors-Supporters Arrangement)
 
 ## Introduction
-The **Zwannah API Structure (Actors-Supporters Arrangement)** (ZAS or ASA) specifies how files in an API (that's based on scripting language) should be arranged to enhance security, maintenance, and tools usage. Tools usage means using tools such as file includers, package managers, and others efficiently. With this structure, it is easy to write and create tools that ensure development meets organizational conventions and standards. For example, a file includer to automatically include classes, interfaces, or traits.   
+The **Zwannah API Structure (Actors-Supporters Arrangement)** (ZAS or ASA) Specification specifies how files in an API (that's based on scripting language) should be arranged to enhance security, maintenance, and tools usage. Tools usage means using tools such as file includers, package managers, and others efficiently. With this structure, it is easy to write and create tools that ensure development meets organizational conventions and standards. For example, a file includer to automatically include classes, interfaces, or traits.   
 
 In the ZAS, an API could be any backend that powers some set of frontend. For example, an app that has a mobile, desktop, and web application frontends running on a single backend. The ZAS can work with APIs that use routing to make public their resources. The routing logic should be placed in the actors directory since that's where HTTP requests/responses are allowed.
 
@@ -12,6 +12,7 @@ In the ZAS, an API could be any backend that powers some set of frontend. For ex
 
 ## Terminologies
 - **process:** consist of one or many files to perform a common function.
+- **side-effect:** include but are not limited to: generating output, connecting to external services, modifying system-wide configurations, emitting errors or exceptions, modifying global or static variables, reading from or writing to a file, and so on.
 
 ## Overview
 ![Zwannah API Structure](https://user-images.githubusercontent.com/56189552/154704650-4edfda60-4ada-41a1-889d-24b5cb4db515.png)
@@ -24,8 +25,9 @@ The API directory is the root directory from which the structure begins. If the 
 
 #### 1.1 setup (process)
 The setup is a process that is responsible to set up dependencies used by the lower processes. For example, in PHP, you want to include the vendor autoload in this process. Other includers such as your own autoloading should be done here. This process could be a single file or multiple files. However, the process will be included in every (process) below it (your own initiative).
+
 #### 2.0 actors (directory)
-Actors directory contains all processes (files) that can interact directly with clients. These are the processes that perform the work on the server. All http requests are made to processes in this directory. An HTTP request should not or cannot be made to processes in the supporters directory. You should set up security rules or only expose the actors directory to HTTP requests. 
+Actors directory contains all processes (files) that can interact directly with clients. These are the processes that perform the work on the server. All http requests are made to processes in this directory. An HTTP request should not or cannot be made to processes in the supporters directory. You should set up security rules or only expose the actors directory to HTTP requests. All actors must have a side-effect.
 
 ##### 2.0.1 authenticator (process)
 The authenticator process checks if the request is authenticated and updates a global state variable accordingly. This state variable could be anything. For example, it could be a `userId` whose default is 0. If a user is logged in, then it is set to the user's ID. This global variable, as the name suggests will be available to every process below it. The authenticator here should not be used to block access to the service, it should only be used to update the state of the request. Let the lower processes handle this state accordingly.
@@ -37,7 +39,7 @@ The authenticator must include the setup process. For example, if you have a dat
 The foreground directory holds the processes that interact through http request. Their executions are initiated but not necessarily terminated by an HTTP request. This means, every file that does some work for the client on the server and needs http requests to be initiated should be placed in this directory. If a router is needed, it should be placed in this directory. 
 
 ###### 2.0.2.1 process groups (directories)
-At this level, processes that perform similar functions should be put together in a single directory. This will make development faster as every process directory can have it's own master includer which will include everything from the root setup to the authenticator or the state of the requests. This is open to interpretation.  
+At this level, processes that perform similar functions should be put together in a single directory. This will make development faster as every process directory can have it's own master includer which will include everything from the root setup to the authenticator or the state of the requests. This is open to interpretation and further extension.  
 
 In an MVC framework setup, Controllers can be placed in this directory. This will assume that the router is placed in the foregrounds directory.
 
@@ -56,7 +58,11 @@ The authentication process is to set up authentication status of the Command-lin
 ###### 2.0.3.3 process groups (directories)
 This is the final level where processes are grouped into directories based on whether they perform functions to achieve a common goal. for example, notifications scripts will be placed in the notifications folder. This is open to interpretation and further extension.
 
+#### 2.1 supporters (directory)
+Supporters directory holds all the processes that are meant to support the actors. All supporters cannot interact with clients directly. They must be called from an actor process. For example, a supporter can be classes, traits, interfaces, configurations, schemas, etc. **The Rule is, supporters cannot interact with clients directly**. This makes it clear that the supporters are scripts which could cause side-effects whereas `actors` must cause side-effect.
 
+##### 2.1.1 supporters groups (directories)
+These are groupings of supporters that provide similar support to actors. For example, classes should be placed in the classes folder as well as interfaces in the interfaces folders. These are all supporters groupings. This is open to interpretation and further extension.
 
 
 
