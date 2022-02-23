@@ -17,7 +17,7 @@ In the ZAS, an API could be any backend that powers some set of frontend. For ex
 ## Overview
 ![Zwannah API Structure](https://user-images.githubusercontent.com/56189552/154704650-4edfda60-4ada-41a1-889d-24b5cb4db515.png)
 
-*All rectangles with rounded corners are processes, circles have no meaning, others are directories.*
+*All rectangles with rounded corners are processes, circles indicates a boundary between left and right branches, others are directories.*
 
 ## Structure
 ### 1.0 API (root directory)
