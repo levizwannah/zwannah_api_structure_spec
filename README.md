@@ -6,8 +6,8 @@ The **Zwannah API Structure (Actors-Supporters Arrangement)** (ZAS or ASA) Speci
 In the ZAS, an API could be any backend that powers some set of frontend. For example, an app that has a mobile, desktop, and web application frontends running on a single backend. The ZAS can work with APIs that use routing to make public their resources. The routing logic should be placed in the actors directory since that's where HTTP requests/responses are allowed.
 
 ## ZAS Naming Conventions
-1. **directory names:** All directory names should be lowercase with no dividers such as underscores or dashes.
-2. **filenames:** all file names should be lowercase with no dividers such as underscores or dashes.
+1. **directory names:** All directory names should be lowercase with dividers such as underscores or dashes.
+2. **filenames:** all file names should be lowercase with dividers such as underscores or dashes.
 3. **extensions:** the file extension should reflect its purpose. for example, "user.php" that holds a user class code should be named "user.class.php" or any preceeding extension as chosen by the organization before the language's extension. For example, "user.class.php" could be "user.c.php".
 
 ## Terminologies
